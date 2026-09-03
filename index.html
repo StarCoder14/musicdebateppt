@@ -80,8 +80,8 @@
 <div class="screen neutral" id="screen"><header class="top"><div class="brand">AI 저작물 귀속 · 토론 진행</div><div class="status" id="status">토론 시작 전</div></header><main class="body intro-body" id="intro"><div class="label">DEBATE LIVE · CLASS 2</div><h1 class="intro-title">지금부터,<br>토론을 시작합니다.</h1><p class="intro-copy">AI가 만든 저작물의 권리는 누구에게 귀속되어야 하는가?</p><div class="intro-start"><span class="key">→</span> 를 눌러 전체 순서를 확인하세요</div></main><main class="body order-body" id="orderView" hidden><div class="label">DEBATE LIVE · CLASS 2</div><h1 class="order-title">토론 순서</h1><div class="order-grid" id="orderList"></div><div class="order-hint"><span class="key">→</span> 를 눌러 진행을 시작하세요</div></main><main class="body stage-body pro" id="stage" hidden><section class="stage-copy"><div class="step" id="step">01 / 11 · 입론</div><h1 class="stage-title" id="title">찬성 측 입론</h1><p class="stage-desc" id="desc">핵심 주장과 판단 기준을 제시합니다.</p></section><section class="clock-panel" id="clockPanel"><div class="clock-label">현재 순서 남은 시간</div><div class="clock" id="clock">02:00</div><div class="meter"><i id="meter"></i></div><div class="clock-note" id="clockNote">스페이스바를 누르면 시작합니다</div></section></main><main class="body finish" id="finish" hidden><div class="label">DEBATE COMPLETE</div><h1 class="stage-title">토론이 끝났습니다.</h1><p class="stage-desc">판정과 강평을 마무리합니다.</p></main><footer class="bottom"><div class="keys"><span class="key">Space</span> 일시정지 <span class="key">R</span> 초기화 <span class="key">N</span>/<span class="key">→</span> 다음 <span class="key">B</span>/<span class="key">←</span> 뒤로</div><div class="overall"><i id="overallBar"></i></div><div class="total" id="total">전체 00:00</div></footer><div class="notice" id="notice"><div><h2>시간 종료</h2><p id="noticeText">다음 순서로 이동합니다.</p></div></div></div>
 <script>
 const stages=[
- {name:'찬성 측 입론',kind:'pro',label:'입론',seconds:60,desc:'핵심 주장과 판단 기준을 제시합니다.',group:0},
- {name:'반대 측 입론',kind:'con',label:'입론',seconds:60,desc:'핵심 주장과 판단 기준을 제시합니다.',group:0},
+ {name:'찬성 측 입론',kind:'pro',label:'입론',seconds:180,desc:'핵심 주장과 판단 기준을 제시합니다.',group:0},
+ {name:'반대 측 입론',kind:'con',label:'입론',seconds:180,desc:'핵심 주장과 판단 기준을 제시합니다.',group:0},
  {name:'반박·반론 준비',kind:'neutral',label:'작전 타임 · 반박/반론',seconds:180,desc:'상대 주장을 반박하고 우리 주장을 다시 세울 근거를 정리합니다.',group:1},
  {name:'반대 측 교차 질문',kind:'con',label:'교차 질문 · 질문',seconds:150,desc:'찬성 측의 주장에 짧고 정확한 질문을 던집니다.',group:2},
  {name:'찬성 측 답변·반박',kind:'pro',label:'교차 질문 · 답변/반박',seconds:150,desc:'질문에 답하고 상대 주장을 반박합니다.',group:2},
@@ -91,7 +91,7 @@ const stages=[
  {name:'자유토론',kind:'judge',label:'자유토론',seconds:900,desc:'의장 진행에 따라 양측이 자유롭게 공방합니다.',group:5},
  {name:'찬성 측 최종 변론',kind:'pro',label:'최종 변론',seconds:120,desc:'핵심 주장과 가장 강한 근거를 정리합니다.',group:6},
  {name:'반대 측 최종 변론',kind:'con',label:'최종 변론',seconds:120,desc:'핵심 주장과 가장 강한 근거를 정리합니다.',group:6},
- {name:'판정 및 강평',kind:'judge',label:'판정 및 강평',seconds:360,desc:'판정 결과를 발표하고 토론을 마무리합니다.',group:7},
+ {name:'판정 및 강평',kind:'judge',label:'판정 및 강평',seconds:180,desc:'판정 결과를 발표하고 토론을 마무리합니다.',group:7},
  {name:'마무리',kind:'neutral',label:'마무리',seconds:60,desc:'사회자의 마무리 멘트와 다음 안내를 진행합니다.',group:8}
 ];
 const $=id=>document.getElementById(id);let index=0,remaining=stages[0].seconds,totalElapsed=0,running=false,started=false,phase='intro',timerId=null,advanceTimer=null,speed=1;const total=stages.reduce((sum,s)=>sum+s.seconds,0);
