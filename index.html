@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 저작물 귀속에 관한 토론 수행평가</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap');
+    :root { --ink:#17212b; --muted:#66737d; --paper:#f6f4ef; --line:#d8d4ca; --orange:#e46b3c; --orange-pale:#fbe5d8; --teal:#087f82; --teal-pale:#d9eeee; --yellow:#f4bf45; --navy:#233b53; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; min-height:100%; background:#202b34; color:var(--ink); font-family:'IBM Plex Sans KR',sans-serif; }
+    body { display:grid; place-items:center; overflow:hidden; }
+    .deck { width:min(100vw, 1600px); height:min(100vh, 900px); position:relative; background:var(--paper); overflow:hidden; box-shadow:0 24px 80px #10171dcc; }
+    .slide { display:none; height:100%; padding:62px 88px 82px; position:relative; overflow:hidden; }
+    .slide.active { display:block; animation:appear .34s ease-out; }
+    @keyframes appear { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:none; } }
+    .slide::before { content:''; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 94% 8%,#fff7 0 8%,transparent 25%), linear-gradient(135deg,transparent 72%,#e8e2d5 72%); opacity:.75; }
+    .content { position:relative; z-index:1; height:100%; }
+    .kicker { color:var(--orange); font-size:15px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+    h1,h2,h3,p { margin:0; }
+    h1 { font-family:'Gowun Dodum',sans-serif; font-size:clamp(43px,5.2vw,82px); line-height:1.16; letter-spacing:0; max-width:960px; }
+    h2 { font-family:'Gowun Dodum',sans-serif; font-size:46px; line-height:1.18; letter-spacing:0; }
+    .subtitle { color:var(--muted); font-size:21px; margin-top:24px; line-height:1.6; }
+    .title-slide { background:var(--navy); color:#fff; }
+    .title-slide::before { background:radial-gradient(circle at 85% 20%,#f4bf4566,transparent 29%), linear-gradient(140deg,transparent 52%,#0c6d73 52%); opacity:1; }
+    .title-slide .kicker { color:var(--yellow); }
+    .title-slide .subtitle { color:#d3e0df; max-width:650px; }
+    .title-mark { position:absolute; right:11%; bottom:11%; width:250px; height:250px; border:1px solid #ffffff55; border-radius:50%; }
+    .title-mark::after,.title-mark::before { content:''; position:absolute; border:1px solid #ffffff44; border-radius:50%; inset:25px; }
+    .title-mark::after { inset:58px; border-color:#f4bf4599; }
+    .meta { position:absolute; bottom:36px; left:88px; color:#abc1c1; font-size:14px; }
+    .topline { display:flex; justify-content:space-between; align-items:center; margin-bottom:34px; }
+    .slide-no { color:#9b9a91; font-size:14px; font-weight:700; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+    .card { background:#fffdf8; border:1px solid var(--line); padding:25px; min-height:160px; }
+    .card h3 { font-size:24px; margin-bottom:13px; }
+    .card p,.card li { color:var(--muted); font-size:17px; line-height:1.65; }
+    ul { margin:0; padding-left:22px; }
+    .time-table { margin-top:32px; border-top:3px solid var(--ink); }
+    .time-row { display:grid; grid-template-columns:90px 1fr 100px; padding:15px 0; border-bottom:1px solid var(--line); align-items:center; font-size:18px; }
+    .time-row strong { color:var(--orange); font-size:20px; }
+    .time-row .duration { text-align:right; font-weight:700; }
+    .total { display:flex; align-items:center; justify-content:space-between; background:var(--navy); color:white; padding:20px 24px; margin-top:18px; font-size:21px; }
+    .total b { color:var(--yellow); font-size:30px; }
+    .time-table.compact { margin-top:24px; }
+    .time-table.compact .time-row { padding:11px 0; }
+    .total.compact { padding:15px 24px; margin-top:14px; }
+    .role-head { display:flex; align-items:baseline; gap:15px; margin-bottom:27px; }
+    .role-head span { color:var(--muted); font-size:17px; }
+    .team { border-top:4px solid var(--orange); padding-top:19px; }
+    .team.against { border-color:var(--teal); }
+    .team h3 { font-size:28px; margin-bottom:18px; }
+    .role-line { display:grid; grid-template-columns:155px 1fr; align-items:center; min-height:54px; border-bottom:1px solid var(--line); }
+    .role-line b { font-size:16px; color:var(--muted); }
+    .people { display:flex; flex-wrap:wrap; gap:8px; }
+    .person { display:inline-grid; place-items:center; min-width:42px; height:34px; padding:0 9px; background:var(--orange-pale); color:#a34420; font-weight:700; }
+    .against .person { background:var(--teal-pale); color:#07656a; }
+    .step { display:grid; grid-template-columns:72px 1fr; gap:24px; align-items:start; padding:22px 0; border-bottom:1px solid var(--line); }
+    .step-num { width:56px; height:56px; display:grid; place-items:center; border-radius:50%; background:var(--orange); color:#fff; font-size:23px; font-weight:700; }
+    .step h3 { font-size:24px; margin-bottom:6px; }
+    .step p { color:var(--muted); font-size:18px; line-height:1.6; }
+    .quote { margin-top:28px; padding:22px 26px; border-left:5px solid var(--yellow); background:#fffdf8; font-family:'Gowun Dodum',sans-serif; font-size:25px; line-height:1.5; }
+    .criteria { display:grid; grid-template-columns:repeat(4,1fr); gap:15px; margin-top:34px; }
+    .criterion { background:var(--navy); color:#fff; padding:22px 18px; min-height:150px; }
+    .criterion b { color:var(--yellow); display:block; font-size:19px; margin-bottom:12px; }
+    .criterion p { color:#d5e0e0; font-size:16px; line-height:1.55; }
+    .toc-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:36px; }
+    .toc-item { display:flex; align-items:center; gap:20px; width:100%; margin:0; background:#fffdf8; border:1px solid var(--line); border-left:5px solid var(--orange); padding:20px 22px; text-align:left; cursor:pointer; transition:transform .18s ease, box-shadow .18s ease; }
+    .toc-text { display:flex; flex-direction:column; gap:2px; }
+    .toc-item:nth-child(even) { border-left-color:var(--teal); }
+    .toc-item:hover, .toc-item:focus-visible { transform:translateX(5px); box-shadow:0 8px 20px #17212b1a; outline:none; }
+    .toc-num { flex:0 0 auto; width:46px; height:46px; display:grid; place-items:center; background:var(--navy); color:var(--yellow); font-weight:700; font-size:18px; }
+    .toc-text b { display:block; font-size:19px; margin-bottom:4px; }
+    .toc-text span { color:var(--muted); font-size:14px; }
+    .order-legend { display:flex; gap:22px; flex-wrap:wrap; margin-top:22px; font-size:14px; color:var(--muted); }
+    .order-legend span { display:inline-flex; align-items:center; gap:8px; }
+    .order-legend i { width:11px; height:11px; border-radius:50%; display:inline-block; }
+    .order-legend .dot-pro { background:var(--orange); } .order-legend .dot-con { background:var(--teal); }
+    .order-legend .dot-neutral { background:var(--yellow); } .order-legend .dot-judge { background:var(--navy); }
+    .order-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:11px; margin-top:22px; }
+    .order-item { display:flex; align-items:center; gap:14px; background:#fffdf8; border:1px solid var(--line); border-left:4px solid var(--line); padding:11px 16px; }
+    .order-item.pro { border-left-color:var(--orange); }
+    .order-item.con { border-left-color:var(--teal); }
+    .order-item.neutral { border-left-color:var(--yellow); }
+    .order-item.judge { border-left-color:var(--navy); }
+    .order-num { flex:0 0 auto; width:30px; height:30px; border-radius:50%; display:grid; place-items:center; font-size:13px; font-weight:700; color:#fff; }
+    .order-item.pro .order-num { background:var(--orange); }
+    .order-item.con .order-num { background:var(--teal); }
+    .order-item.neutral .order-num { background:var(--yellow); color:#5c4200; }
+    .order-item.judge .order-num { background:var(--navy); }
+    .order-text { flex:1; min-width:0; }
+    .order-text b { display:block; font-size:15.5px; }
+    .order-text span { font-size:12.5px; color:var(--muted); }
+    .order-dur { flex:0 0 auto; font-size:13px; font-weight:700; color:var(--muted); white-space:nowrap; }
+    .end { display:flex; flex-direction:column; justify-content:center; background:#e8ded0; }
+    .end::before { background:radial-gradient(circle at 10% 8%,#ffffff99,transparent 28%), linear-gradient(140deg,transparent 55%,#087f8222 55%); }
+    .end h2 { font-size:64px; max-width:760px; }
+    .end p { margin-top:22px; font-size:23px; color:var(--muted); }
+    .controls { position:absolute; z-index:10; left:0; right:0; bottom:0; height:52px; display:flex; align-items:center; gap:12px; padding:0 22px; background:#17212be8; color:#dce5e4; }
+    button { border:0; background:transparent; color:inherit; cursor:pointer; font:inherit; }
+    .nav-btn { width:32px; height:32px; font-size:24px; }
+    .nav-btn:hover { color:var(--yellow); }
+    .progress { height:4px; flex:1; background:#ffffff30; }
+    .progress i { display:block; height:100%; width:0; background:var(--yellow); transition:width .25s; }
+    .counter { font-size:13px; min-width:48px; text-align:right; }
+    .hint { font-size:12px; color:#aebdbc; margin-left:4px; }
+    @media(max-width:800px) {
+      body { overflow:auto; display:block; }
+      .deck { width:100vw; height:100vh; min-height:620px; box-shadow:none; }
+      .slide { padding:38px 28px 70px; }
+      h1 { font-size:43px; } h2 { font-size:36px; }
+      .grid-3,.grid-2,.criteria { grid-template-columns:1fr; gap:12px; }
+      .card { min-height:auto; padding:17px; } .card h3 { font-size:20px; }
+      .card p,.card li { font-size:15px; }
+      .time-row { grid-template-columns:48px 1fr 58px; font-size:15px; padding:11px 0; }
+      .time-row strong { font-size:17px; } .total { font-size:17px; padding:14px; } .total b { font-size:25px; }
+      .role-line { grid-template-columns:108px 1fr; min-height:52px; } .role-line b { font-size:13px; } .person { min-width:35px; height:30px; font-size:13px; }
+      .team h3 { font-size:23px; margin-bottom:10px; }
+      .step { grid-template-columns:46px 1fr; gap:13px; padding:15px 0; } .step-num { width:40px; height:40px; font-size:18px; } .step h3 { font-size:19px; } .step p { font-size:15px; }
+      .quote { font-size:19px; padding:16px; } .criteria { margin-top:17px; } .criterion { min-height:auto; padding:14px; } .criterion p { font-size:14px; }
+      .toc-grid { grid-template-columns:1fr; gap:11px; margin-top:20px; } .toc-item { padding:14px 16px; gap:14px; } .toc-num { width:36px; height:36px; font-size:15px; } .toc-text b { font-size:16px; } .toc-text span { font-size:13px; }
+      .order-grid { grid-template-columns:1fr; gap:8px; margin-top:14px; } .order-item { padding:9px 12px; gap:10px; } .order-num { width:24px; height:24px; font-size:11px; } .order-text b { font-size:14px; } .order-text span { font-size:11px; } .order-legend { gap:14px; margin-top:14px; font-size:12px; }
+      .end h2 { font-size:47px; } .end p { font-size:18px; } .title-mark { right:-70px; bottom:15%; }
+      .meta { left:28px; bottom:26px; } .hint { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="토론 수행평가 웹 프레젠테이션">
+    <section class="slide title-slide active">
+      <div class="content"><div class="kicker">Debate Performance Assessment · Class 2</div><h1 style="margin-top:30px">AI 저작물 귀속에<br>관한 토론</h1><p class="subtitle">생성형 AI가 만든 결과물의 권리는 누구에게 귀속되어야 하는가?</p><div class="title-mark"></div><div class="meta">토론 수행평가 진행 안내 · 총 45분</div></div>
+    </section>
+    <section class="slide"><div class="content"><div class="topline"><div class="kicker">Contents</div><div class="slide-no">Menu</div></div><h2>목차</h2><p class="subtitle">전체 흐름을 먼저 확인하고 시작합니다 · 항목을 클릭하면 해당 슬라이드로 이동합니다.</p><div class="toc-grid">
+      <button type="button" class="toc-item" onclick="show(2)"><span class="toc-num">01</span><span class="toc-text"><b>오늘의 토론 흐름</b><span>전체 진행 순서 · 45분</span></span></button>
+      <button type="button" class="toc-item" onclick="show(3)"><span class="toc-num">02</span><span class="toc-text"><b>토론 순서</b><span>13단계 상세 순서 · 44분</span></span></button>
+      <button type="button" class="toc-item" onclick="show(4)"><span class="toc-num">03</span><span class="toc-text"><b>역할별 담당자</b><span>찬성 · 반대 팀 구성</span></span></button>
+      <button type="button" class="toc-item" onclick="show(5)"><span class="toc-num">04</span><span class="toc-text"><b>판정 및 기록단</b><span>의장 · 기록 · 판정위원</span></span></button>
+      <button type="button" class="toc-item" onclick="show(6)"><span class="toc-num">05</span><span class="toc-text"><b>입론</b><span>찬성/반대 각 2분</span></span></button>
+      <button type="button" class="toc-item" onclick="show(7)"><span class="toc-num">06</span><span class="toc-text"><b>교차 질문</b><span>질문과 답변 · 7분</span></span></button>
+      <button type="button" class="toc-item" onclick="show(8)"><span class="toc-num">07</span><span class="toc-text"><b>작전 타임과 자유토론</b><span>전략 수정 및 공방 · 24분</span></span></button>
+      <button type="button" class="toc-item" onclick="show(9)"><span class="toc-num">08</span><span class="toc-text"><b>최종 변론과 판정</b><span>변론 · 판정 및 강평 · 10분</span></span></button>
+      <button type="button" class="toc-item" onclick="show(10)"><span class="toc-num">09</span><span class="toc-text"><b>토론 시작</b><span>이제, 질문을 시작합니다</span></span></button>
+    </div></div></section>
+    <section class="slide"><div class="content"><div class="topline"><div class="kicker">01 · Overview</div><div class="slide-no">01 / 09</div></div><h2>오늘의 토론 흐름</h2><p class="subtitle">짧고 밀도 있게, 주장과 근거를 교차 검증합니다.</p><div class="time-table compact"><div class="time-row"><strong>01</strong><span>입론 · 찬성/반대 각 2분</span><span class="duration">4분</span></div><div class="time-row"><strong>02</strong><span>교차 질문 · 질문과 답변</span><span class="duration">7분</span></div><div class="time-row"><strong>03</strong><span>작전 타임 · 자료 공유 및 전략 수정</span><span class="duration">6분</span></div><div class="time-row"><strong>04</strong><span>자유토론 · 의장 진행</span><span class="duration">18분</span></div><div class="time-row"><strong>05</strong><span>최종 변론 · 찬성/반대 각 2분</span><span class="duration">4분</span></div><div class="time-row"><strong>06</strong><span>판정 및 강평</span><span class="duration">6분</span></div></div><div class="total compact"><span>전체 토론 시간</span><b>45분</b></div></div></section>
+    <section class="slide"><div class="content"><div class="topline"><div class="kicker">02 · Order</div><div class="slide-no">02 / 09</div></div><h2>토론 순서</h2><p class="subtitle">발언 주체와 제한 시간까지 담은 전체 13단계 상세 순서입니다.</p><div class="order-legend"><span><i class="dot-pro"></i>찬성 측</span><span><i class="dot-con"></i>반대 측</span><span><i class="dot-neutral"></i>준비 · 작전 타임</span><span><i class="dot-judge"></i>자유토론 · 판정</span></div><div class="order-grid">
+      <div class="order-item pro"><span class="order-num">01</span><span class="order-text"><b>찬성 측 입론</b><span>입론</span></span><span class="order-dur">1분</span></div>
+      <div class="order-item con"><span class="order-num">02</span><span class="order-text"><b>반대 측 입론</b><span>입론</span></span><span class="order-dur">1분</span></div>
+      <div class="order-item neutral"><span class="order-num">03</span><span class="order-text"><b>반박·반론 준비</b><span>작전 타임</span></span><span class="order-dur">3분</span></div>
+      <div class="order-item con"><span class="order-num">04</span><span class="order-text"><b>반대 측 교차 질문</b><span>질문</span></span><span class="order-dur">2분30초</span></div>
+      <div class="order-item pro"><span class="order-num">05</span><span class="order-text"><b>찬성 측 답변·반박</b><span>답변/반박</span></span><span class="order-dur">2분30초</span></div>
+      <div class="order-item pro"><span class="order-num">06</span><span class="order-text"><b>찬성 측 교차 질문</b><span>질문</span></span><span class="order-dur">2분30초</span></div>
+      <div class="order-item con"><span class="order-num">07</span><span class="order-text"><b>반대 측 답변·반박</b><span>답변/반박</span></span><span class="order-dur">2분30초</span></div>
+      <div class="order-item neutral"><span class="order-num">08</span><span class="order-text"><b>작전 타임</b><span>자료 정리</span></span><span class="order-dur">3분</span></div>
+      <div class="order-item judge"><span class="order-num">09</span><span class="order-text"><b>자유토론</b><span>의장 진행</span></span><span class="order-dur">15분</span></div>
+      <div class="order-item pro"><span class="order-num">10</span><span class="order-text"><b>찬성 측 최종 변론</b><span>최종 변론</span></span><span class="order-dur">2분</span></div>
+      <div class="order-item con"><span class="order-num">11</span><span class="order-text"><b>반대 측 최종 변론</b><span>최종 변론</span></span><span class="order-dur">2분</span></div>
+      <div class="order-item judge"><span class="order-num">12</span><span class="order-text"><b>판정 및 강평</b><span>판정</span></span><span class="order-dur">6분</span></div>
+      <div class="order-item neutral"><span class="order-num">13</span><span class="order-text"><b>마무리</b><span>마무리</span></span><span class="order-dur">1분</span></div>
+    </div></div></section>
+    <section class="slide"><div class="content"><div class="topline"><div class="kicker">03 · Teams</div><div class="slide-no">03 / 09</div></div><div class="role-head"><h2>역할별 담당자</h2><span>숫자 하나 = 참여자 한 명</span></div><div class="grid-2"><div class="team"><h3>찬성 측</h3><div class="role-line"><b>기획자 · 3명</b><div class="people"><span class="person">7</span><span class="person">8</span><span class="person">15</span></div></div><div class="role-line"><b>토론자 · 3명</b><div class="people"><span class="person">3</span><span class="person">24</span><span class="person">9</span></div></div><div class="role-line"><b>자료 수집가 · 4명</b><div class="people"><span class="person">19</span><span class="person">26</span><span class="person">17</span><span class="person">22</span></div></div><div class="role-line"><b>최종 변론가 · 2명</b><div class="people"><span class="person">6</span><span class="person">4</span></div></div></div><div class="team against"><h3>반대 측</h3><div class="role-line"><b>기획자 · 3명</b><div class="people"><span class="person">18</span><span class="person">11</span><span class="person">10</span></div></div><div class="role-line"><b>토론자 · 3명</b><div class="people"><span class="person">23</span><span class="person">25</span><span class="person">30</span></div></div><div class="role-line"><b>자료 수집가 · 4명</b><div class="people"><span class="person">12</span><span class="person">20</span><span class="person">27</span><span class="person">28</span></div></div><div class="role-line"><b>최종 변론가 · 2명</b><div class="people"><span class="person">21</span><span class="person">29</span></div></div></div></div></div></section>
+    <section class="slide"><div class="content"><div class="topline"><div class="kicker">04 · Roles</div><div class="slide-no">04 / 09</div></div><h2>판정 및 기록단</h2><p class="subtitle">토론의 흐름을 관리하고, 양측의 근거와 태도를 공정하게 기록합니다.</p><div class="grid-3" style="margin-top:40px"><div class="card"><h3>의장 · 사회자</h3><p>참여자 14, 16<br>발언 순서와 시간을 관리하고 질문을 정리합니다.</p></div><div class="card"><h3>기록</h3><p>참여자 2, 5<br>주장·근거·반박 내용을 핵심어로 기록합니다.</p></div><div class="card"><h3>판정위원</h3><p>참여자 13, 1, 31<br>평가 기준에 따라 양측의 토론을 종합적으로 판단합니다.</p></div></div><div class="quote">“좋은 토론은 목소리의 크기가 아니라, 근거의 연결로 설득한다.”</div></div></section>
+    <section class="slide"><div class="content"><div class="topline"><div class="kicker">05 · Opening</div><div class="slide-no">05 / 09</div></div><h2>입론 · 4분</h2><p class="subtitle">각 팀의 핵심 주장을 처음으로 선명하게 제시합니다.</p><div style="margin-top:22px"><div class="step"><div class="step-num">1</div><div><h3>찬성 측 입론 · 2분</h3><p>AI 저작물의 권리를 인정해야 하는 이유와 판단 기준을 제시합니다.</p></div></div><div class="step"><div class="step-num" style="background:var(--teal)">2</div><div><h3>반대 측 입론 · 2분</h3><p>권리 귀속에 따르는 문제점과 대안적 관점을 제시합니다.</p></div></div></div><div class="quote">입론의 목표: 세부 쟁점을 모두 말하기보다, 우리 팀의 판단 기준을 먼저 세우기</div></div></section>
+    <section class="slide"><div class="content"><div class="topline"><div class="kicker">06 · Cross-examination</div><div class="slide-no">06 / 09</div></div><h2>교차 질문 · 7분</h2><p class="subtitle">상대 팀의 주장에 짧고 정확한 질문을 던지고 답변을 확인합니다.</p><div class="grid-3" style="margin-top:42px"><div class="card"><h3>질문은 짧게</h3><p>한 번에 하나의 쟁점만 질문합니다. 질문 안에 주장을 여러 개 넣지 않습니다.</p></div><div class="card"><h3>답변은 직접적으로</h3><p>질문에서 벗어나지 않고 핵심부터 답합니다. 필요한 경우 근거를 덧붙입니다.</p></div><div class="card"><h3>기록자는 포착</h3><p>답변에서 새롭게 등장한 근거, 인정한 전제, 남은 쟁점을 기록합니다.</p></div></div><div class="quote">질문 3분 + 답변 4분 · 의장은 발언 시간을 균등하게 배분합니다.</div></div></section>
+    <section class="slide"><div class="content"><div class="topline"><div class="kicker">07 · Strategy & Debate</div><div class="slide-no">07 / 09</div></div><h2>작전 타임과 자유토론</h2><div class="grid-2" style="margin-top:31px"><div class="card" style="border-top:5px solid var(--yellow)"><h3>작전 타임 · 6분</h3><ul><li>상대 질문에서 드러난 약점 확인</li><li>자료 수집가가 근거와 출처 공유</li><li>반박 순서와 최종 메시지 수정</li></ul></div><div class="card" style="border-top:5px solid var(--orange)"><h3>자유토론 · 18분</h3><ul><li>의장 주도로 자유롭게 공방</li><li>주장 → 근거 → 반박 구조 유지</li><li>자료 수집가는 필요한 메모 전달</li></ul></div></div><div class="quote">토론자는 상대의 말을 정확히 요약한 뒤 반박하면 설득력이 높아집니다.</div></div></section>
+    <section class="slide"><div class="content"><div class="topline"><div class="kicker">08 · Closing</div><div class="slide-no">08 / 09</div></div><h2>최종 변론과 판정</h2><p class="subtitle">마지막에는 쟁점을 압축하고, 판정단은 과정과 결과를 함께 살핍니다.</p><div style="margin-top:22px"><div class="step"><div class="step-num">1</div><div><h3>최종 변론 · 4분</h3><p>반대 측 2분, 찬성 측 2분 순서로 핵심 주장과 가장 강한 근거를 정리합니다.</p></div></div><div class="step"><div class="step-num" style="background:var(--teal)">2</div><div><h3>판정 및 강평 · 6분</h3><p>판정위원 결과 발표, 사회자 마무리, 토론 과정에 대한 짧은 피드백을 진행합니다.</p></div></div></div><div class="criteria"><div class="criterion"><b>근거성</b><p>주장을 뒷받침하는 자료가 타당한가</p></div><div class="criterion"><b>논리성</b><p>주장과 근거가 자연스럽게 연결되는가</p></div><div class="criterion"><b>반박력</b><p>상대의 핵심 쟁점을 정확히 다루는가</p></div><div class="criterion"><b>협업·태도</b><p>역할을 수행하고 서로 존중했는가</p></div></div></div></section>
+    <section class="slide end"><div class="content"><div class="kicker">09 · Ready</div><h2 style="margin-top:25px">이제, 질문을<br>시작합니다.</h2><p>AI가 만든 저작물의 권리는 누구에게 귀속되어야 할까요?</p><div class="meta" style="color:#66737d">총 45분 · AI 저작물 귀속에 관한 토론</div></div></section>
+    <div class="controls"><button class="nav-btn" id="prev" aria-label="이전 슬라이드">‹</button><button class="nav-btn" id="next" aria-label="다음 슬라이드">›</button><div class="progress"><i id="bar"></i></div><span class="counter" id="counter">1 / 11</span><span class="hint">← → 또는 스페이스로 이동 · F 전체화면</span></div>
+  </main>
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const bar = document.getElementById('bar');
+    const counter = document.getElementById('counter');
+    let current = 0;
+    function show(index) { current = Math.max(0, Math.min(index, slides.length - 1)); slides.forEach((slide, i) => slide.classList.toggle('active', i === current)); bar.style.width = ((current + 1) / slides.length * 100) + '%'; counter.textContent = `${current + 1} / ${slides.length}`; }
+    document.getElementById('prev').addEventListener('click', () => show(current - 1));
+    document.getElementById('next').addEventListener('click', () => show(current + 1));
+    document.addEventListener('keydown', event => { if (['ArrowRight',' ','PageDown'].includes(event.key)) { event.preventDefault(); show(current + 1); } if (['ArrowLeft','PageUp'].includes(event.key)) { event.preventDefault(); show(current - 1); } if (event.key.toLowerCase() === 'f') document.documentElement.requestFullscreen?.(); });
+    show(0);
+  </script>
+</body>
+</html>
